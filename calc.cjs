@@ -43,7 +43,7 @@ Code (comments removed):
 ${cleaned}
 `;
 
-  const res = await fetch(${url}?key=${key}, {
+  const res = await fetch(`${url}?key=${key}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
