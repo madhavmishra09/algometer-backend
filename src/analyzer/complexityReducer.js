@@ -1,16 +1,26 @@
-function reduceComplexity(loopDepth,logLoops){
-    let result="O(";
-    if(loopDepth===0 && logLoops===0){
-        return "O(1)";
-    }
-    if(loopDepth>0){
-        result+=`n${loopDepth>1?"^"+loopDepth: ""}`;
-    }
-    if(logLoops>0){
-        result+=`${loopDepth? " " : ""}log n`;
-    }
-    result+=")";
-    return result;
+function reduceComplexity(loopDepth, logLoops, sqrtLoops) {
+
+  if (sqrtLoops > 0) {
+    return "O(√n)";
+  }
+
+  if (logLoops > 0 && loopDepth > 0) {
+    return "O(n log n)";
+  }
+
+  if (logLoops > 0) {
+    return "O(log n)";
+  }
+
+  if (loopDepth === 0) {
+    return "O(1)";
+  }
+
+  if (loopDepth === 1) {
+    return "O(n)";
+  }
+
+  return `O(n^${loopDepth})`;
 }
 
-module.exports=reduceComplexity;
+module.exports = reduceComplexity;
