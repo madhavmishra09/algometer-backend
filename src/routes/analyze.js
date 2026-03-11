@@ -39,9 +39,10 @@ router.post("/", (req, res) => {
     const isDivideConquer = analyzeDivideConquer(ast);
 
     let timeComplexity = reduceComplexity(
-      loopData.loopDepth,
-      loopData.logLoops
-    );
+  loopData.loopDepth,
+  loopData.logLoops,
+  loopData.sqrtLoops
+);
 
     if (isDivideConquer) {
       timeComplexity = "O(n log n)";
