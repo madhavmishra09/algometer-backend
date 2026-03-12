@@ -2,7 +2,7 @@ const express = require("express");
 
 const validateInput = require("../utils/validateInput");
 const cache = require("../utils/cache");
-
+const normalizeCode = require("../utils/normalizeCode");
 const parseCode = require("../parser/parseCode");
 
 const analyzeLoops = require("../analyzer/loopAnalyzer");
@@ -30,7 +30,8 @@ router.post("/", (req, res) => {
 
   try {
 
-    const ast = parseCode(code);
+    const cleanedCode = normalizeCode(code);
+const ast = parseCode(cleanedCode);
 
     const loopData = analyzeLoops(ast);
     const recursionData = analyzeRecursion(ast);
