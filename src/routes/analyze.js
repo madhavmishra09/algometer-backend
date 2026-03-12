@@ -31,7 +31,7 @@ router.post("/", (req, res) => {
   try {
 
     const cleanedCode = normalizeCode(code);
-const ast = parseCode(cleanedCode);
+    const ast = parseCode(cleanedCode);
 
     const loopData = analyzeLoops(ast);
     const recursionData = analyzeRecursion(ast);
