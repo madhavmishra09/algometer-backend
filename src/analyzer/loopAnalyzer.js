@@ -24,30 +24,21 @@ function analyzeLoops(ast) {
         logLoops++;
       }
 
-      // Detect sqrt loops
-      if (
-        node.test &&
-        node.test.left &&
-        node.test.left.type === "BinaryExpression"
-      ) {
-
-        const expr = node.test.left;
-
+      // Detect sqrt loops (pattern: i*i < n)
+      if (node.test && node.test.type === "BinaryExpression") {
+        const testExpr = node.test;
+        
         if (
-          expr &&
-          expr.operator === "*" &&
-          expr.left &&
-          expr.right &&
-          expr.left.name &&
-          expr.right.name &&
-          expr.left.name === expr.right.name
+          (testExpr.left?.type === "BinaryExpression" &&
+           testExpr.left.operator === "*" &&
+           testExpr.left.left?.name === testExpr.left.right?.name) ||
+          (testExpr.right?.type === "BinaryExpression" &&
+           testExpr.right.operator === "*" &&
+           testExpr.right.left?.name === testExpr.right.right?.name)
         ) {
           sqrtLoops++;
         }
-
       }
-
-      loopDepth--;
 
     },
 
@@ -55,7 +46,6 @@ function analyzeLoops(ast) {
 
       loopDepth++;
       maxDepth = Math.max(maxDepth, loopDepth);
-      loopDepth--;
 
     }
 
