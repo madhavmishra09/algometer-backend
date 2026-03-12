@@ -16,7 +16,7 @@ const analyzeDivideConquer = require("../analyzer/divideConquerAnalyzer");
 const router = express.Router();
 
 router.post("/", (req, res) => {
-
+  console.log("Incoming Request:",req.body)
   const { code } = req.body;
 
   const error = validateInput(code);
