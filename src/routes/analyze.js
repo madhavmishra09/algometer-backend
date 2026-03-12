@@ -67,12 +67,12 @@ router.post("/", (req, res) => {
     res.json(result);
 
   } catch (err) {
-
-    res.status(400).json({
-      error: "Code analysis failed"
-    });
-
-  }
+  console.error("Analysis error:", err);   // <-- shows in Render logs
+  res.status(400).json({
+    error: "Code analysis failed",
+    details: err.message
+  });
+}
 
 });
 
