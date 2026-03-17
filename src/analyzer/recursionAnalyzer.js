@@ -1,28 +1,33 @@
 const walk = require("acorn-walk");
+const getName = require("../utils/getName");
+
 function analyzeRecursion(ast) {
-    const getName = require("../utils/getName");
 
-    walk.simple(ast, {
+  let functionName = null;
+  let recursiveCalls = 0;   // ✅ FIX: declare it
 
-        FunctionDeclaration(node) {
-            functionName = node.id ? node.id.name : null;
-        },
+  walk.simple(ast, {
 
-        CallExpression(node) {
+    FunctionDeclaration(node) {
+      functionName = node.id ? node.id.name : null;
+    },
 
-            const calledName = getName(node.callee);
+    CallExpression(node) {
 
-            if (calledName && calledName === functionName) {
-                recursiveCalls++;
-            }
+      const calledName = getName(node.callee);
 
-        }
+      if (calledName && functionName && calledName === functionName) {
+        recursiveCalls++;
+      }
 
-    });
-    return {
-        recursion: recursiveCalls > 0,
-        calls: recursiveCalls
-    };
+    }
+
+  });
+
+  return {
+    recursion: recursiveCalls > 0,
+    calls: recursiveCalls
+  };
 }
 
 module.exports = analyzeRecursion;
