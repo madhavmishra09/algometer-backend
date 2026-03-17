@@ -1,42 +1,42 @@
 const walk = require("acorn-walk");
-const getName = require("../utils/getName");
 
 function analyzeBinarySearch(ast) {
 
-  let midDetected = false;
-  let boundaryUpdate = false;
-  let loopDetected = false;
+  let hasWhile = false;
+  let hasMid = false;
+  let updatesBoundary = false;
 
   walk.simple(ast, {
 
     WhileStatement() {
-      loopDetected = true;
+      hasWhile = true;
     },
 
     VariableDeclarator(node) {
-
       if (
         node.id &&
         node.id.name === "mid"
       ) {
-        midDetected = true;
+        hasMid = true;
       }
-
     },
 
     AssignmentExpression(node) {
 
-      const leftName = getName(node.left);
-
-      if (leftName === "l" || leftName === "r") {
-        boundaryUpdate = true;
+      if (
+        node.right &&
+        node.right.type === "BinaryExpression" &&
+        node.right.left &&
+        node.right.left.name === "mid"
+      ) {
+        updatesBoundary = true;
       }
 
     }
 
   });
 
-  return loopDetected && midDetected && boundaryUpdate;
+  return hasWhile && hasMid && updatesBoundary;
 }
 
 module.exports = analyzeBinarySearch;
