@@ -4,7 +4,7 @@ const getName = require("../utils/getName");
 function analyzeRecursion(ast) {
 
   let functionName = null;
-  let recursiveCalls = 0;   // ✅ FIX: declare it
+  let recursiveCalls = 0;
 
   walk.simple(ast, {
 
